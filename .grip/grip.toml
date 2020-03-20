@@ -1,24 +1,39 @@
 name = "cdl_tools_grip"
 default_config  = "all"
-configs         = ["all"]
-base_repos      = ["grip", "cdl", "binutils"]
-stages          = ["configure","install"]
+configs         = ["all", "cdlonly"]
+base_repos      = ["cdl"]
+stages          = ["temp", "temp2", "configure","install"]
 workflow        = "readonly"
 
 [env]
+HOST_TOOLS_DIR="%GRIP_ROOT_PATH%/tools/host"
 RISCV_TOOLS_DIR="%GRIP_ROOT_PATH%/tools/riscv"
-# SOURCEWARE_ORL="git://sourceware.org/git"
-SOURCEWARE_ORL="/Users/gavinprivate/Git"
+# SOURCEWARE_ORG="git://sourceware.org/git"
+SOURCEWARE_ORG="/Users/gavinprivate/Git"
+PATH="%GRIP_ROOT_PATH%/grip:$(PATH)"
 
+[config.cdlonly]
 [config.all]
+repos = ["grip", "cdl", "binutils"]
 
 [repo.grip]
 url  = "https://github.com/atthecodeface/grip.git"
 path = "grip"
-env = { PATH="%GRIP_REPO_PATH%:$PATH" }
+
+[repo.cdl]
+url  = "https://github.com/atthecodeface/cdl.git"
+branch = "grip"
+path = "cdl"
+env = {BUILD_DIR="%GRIP_ROOT_PATH%/build/cdl"}
+[repo.cdl.temp]
+exec = "mkdir -p %BUILD_DIR% && autoreconf --force --install --verbose && cd %GRIP_REPO_PATH% && ./configure --prefix=%HOST_TOOLS_DIR%"
+[repo.cdl.temp2]
+requires = ["temp"]
+# wd = "%BUILD_DIR%"
+exec = "make"
 
 [repo.binutils]
-url = "%SOURCEWARE_ORG%/binutils.git"
+url = "%SOURCEWARE_ORG%/binutils-gdb.git"
 branch = "binutils-2_32-branch"
 path = "binutils"
 shallow = "true"

@@ -1,0 +1,13 @@
+[all.grip]
+changeset = "2bdbae39986b7da09378c57bcd609ddf663a6cf5"
+
+[all.cdl]
+changeset = "42b8d68b8c775a35cf224432a7845b5b49478141"
+
+[all.binutils]
+changeset = "2846942c7c83d007106cdcf1108ceedb50e1d4ec"
+branch = "binutils-2_32-branch"
+
+[cdlonly.cdl]
+changeset = "8a5c219f3b50c79857bb66761b66b7546819b959"
+branch = "grip"
