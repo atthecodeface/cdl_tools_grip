@@ -1,0 +1,6 @@
+.grip/local*
+build
+tools
+
+binutils
+*~

@@ -1,0 +1,42 @@
+name = "cdl_tools_grip"
+default_config  = "all"
+configs         = ["all"]
+base_repos      = ["grip", "cdl", "binutils"]
+stages          = ["configure","install"]
+workflow        = "readonly"
+
+[env]
+RISCV_TOOLS_DIR="%GRIP_ROOT_PATH%/tools/riscv"
+# SOURCEWARE_ORL="git://sourceware.org/git"
+SOURCEWARE_ORL="/Users/gavinprivate/Git"
+
+[config.all]
+
+[repo.grip]
+url  = "https://github.com/atthecodeface/grip.git"
+path = "grip"
+env = { PATH="%GRIP_REPO_PATH%:$PATH" }
+
+[repo.binutils]
+url = "%SOURCEWARE_ORG%/binutils.git"
+branch = "binutils-2_32-branch"
+path = "binutils"
+shallow = "true"
+env = { BINUTILS_BUILD_DIR="%GRIP_ROOT_PATH%/build/binutils" }
+
+[repo.binutils.configure]
+env = {BUILD_DIR="%BINUTILS_BUILD_DIR%"}
+exec = """ \
+mkdir -p %BUILD_DIR% &&  \
+cd %BUILD_DIR% &&        \
+%GRIP_REPO_PATH%/configure --prefix=%RISCV_TOOLS_DIR% --target=riscv64-unknown-elf \
+"""
+
+[repo.binutils.install]
+requires = ["binutils.configure"]
+wd = "%BINUTILS_BUILD_DIR%"
+exec = """ \
+ make -j8 &&   \
+ make install  \
+  """
+
