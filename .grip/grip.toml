@@ -1,57 +1,108 @@
 name = "cdl_tools_grip"
+doc= """
+This grip repository provides all of the tools required for the CDL hardware builds.
+This includes cdl itself, verilator, and cross-compilers/assemblers/linkers for RISC-V.
+
+There is one main configuration: 'all'. This downloads and installs all of the tools.
+The tools are built in to TOOLS_DIR, which defaults to <cd>/tools.
+"""
+
 default_config  = "all"
-configs         = ["all", "cdlonly"]
-base_repos      = ["cdl"]
-stages          = ["temp", "temp2", "configure","install"]
+configs         = ["all", "test"]
+base_repos      = []
+stages          = ["temp", "temp2", "download", "configure","install"]
 workflow        = "readonly"
 
 [env]
-HOST_TOOLS_DIR="%GRIP_ROOT_PATH%/tools/host"
-RISCV_TOOLS_DIR="%GRIP_ROOT_PATH%/tools/riscv"
-# SOURCEWARE_ORG="git://sourceware.org/git"
-SOURCEWARE_ORG="/Users/gavinprivate/Git"
-PATH="%GRIP_ROOT_PATH%/grip:$(PATH)"
+TOOLS_DIR="%GRIP_ROOT_PATH%/tools"
+PATH="%GRIP_ROOT_PATH%/grip:%TOOLS_DIR%/bin:$(PATH)"
 
-[config.cdlonly]
+[config.test]
+# repos = ["cdl", "verilator"]
+# repos = ["verilator"]
+repos = ["toolchains"]
+doc = """
+This is a test configuration for the use of the author only
+"""
+
 [config.all]
-repos = ["grip", "cdl", "binutils"]
+repos = ["grip", "cdl", "toolchains", "verilator"]
+doc = """
+This grip configuration provides the 'grip', 'cdl' and 'verilator' tools, plus Binutils, gcc and libc
+compiled for RISC-V I32MC standalone (non-linux target)
+"""
+
+
+[repo.verilator]
+url = "https://git.veripool.org/git/verilator"
+branch = "stable"
+path = "verilator"
+doc = """
+Verilator is a Verilog/SystemVerilog to C++ compiler. It is not currently used in the CDL hardware,
+but it will be.
+"""
+
+[repo.verilator.configure]
+exec = "unset VERILATOR_ROOT && autoconf && ./configure --prefix=%TOOLS_DIR%"
+
+[repo.verilator.install]
+requires = ["verilator.configure"]
+exec = "make -j4 && make install"
+
 
 [repo.grip]
 url  = "https://github.com/atthecodeface/grip.git"
 path = "grip"
+doc = """
+Grip is the git repository configuration management tool
+"""
+
 
 [repo.cdl]
 url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
 env = {BUILD_DIR="%GRIP_ROOT_PATH%/build/cdl"}
+doc = """
+CDL is a synthesizable hardware design language, compiler for that language, and simulation engine.
+
+The hardware designs are all written in CDL, and require this tool to convert them to Verilog or to simulate them.
+"""
+
 [repo.cdl.temp]
-exec = "mkdir -p %BUILD_DIR% && autoreconf --force --install --verbose && cd %GRIP_REPO_PATH% && ./configure --prefix=%HOST_TOOLS_DIR%"
+exec = "mkdir -p %BUILD_DIR% && autoreconf --force --install --verbose && cd %GRIP_REPO_PATH% && ./configure --prefix=%TOOLS_DIR%"
+
 [repo.cdl.temp2]
 requires = ["temp"]
 # wd = "%BUILD_DIR%"
 exec = "make"
 
-[repo.binutils]
-url = "%SOURCEWARE_ORG%/binutils-gdb.git"
-branch = "binutils-2_32-branch"
-path = "binutils"
-shallow = "true"
-env = { BINUTILS_BUILD_DIR="%GRIP_ROOT_PATH%/build/binutils" }
 
-[repo.binutils.configure]
-env = {BUILD_DIR="%BINUTILS_BUILD_DIR%"}
-exec = """ \
-mkdir -p %BUILD_DIR% &&  \
-cd %BUILD_DIR% &&        \
-%GRIP_REPO_PATH%/configure --prefix=%RISCV_TOOLS_DIR% --target=riscv64-unknown-elf \
+[repo.toolchains]
+url = "toolchain_building.git"
+path = "toolchains"
+env = { TOOLS_DATA_DIR="%GRIP_ROOT_PATH%/temp_data" }
+doc = """
+The toolchains repository is a make environment for downloading,
+configuring, compiling and installing the GNU toolchain and binutils,
+as cross-compilers.
+
+It has three grip stages: download, configure and install. The underlying
+git repo will perform all downloading during the download stage - after that
+is complete the network is not required for a built.
+
+The repository is used here to build cross-compiler, linker and assembler for RISC-V32 Elf,
+i.e. not a Linux-specific libc; this allows non-OS applications/tests to be built
 """
 
-[repo.binutils.install]
-requires = ["binutils.configure"]
-wd = "%BINUTILS_BUILD_DIR%"
-exec = """ \
- make -j8 &&   \
- make install  \
-  """
+[repo.toolchains.download]
+exec = "make DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% download"
+
+[repo.toolchains.configure]
+requires = ["toolchains.download"]
+exec = "make TARGET=riscv32-elf DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% configure"
+
+[repo.toolchains.install]
+requires = ["toolchains.configure"]
+exec = "make TARGET=riscv32-elf DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% install"
 
