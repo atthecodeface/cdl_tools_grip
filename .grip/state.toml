@@ -9,7 +9,7 @@ changeset = "2846942c7c83d007106cdcf1108ceedb50e1d4ec"
 branch = "binutils-2_32-branch"
 
 [all.toolchains]
-changeset = "4f65507a52de1861770573bd69e50353c6090698"
+changeset = "eab74f40ed622cc7699b29ea6c6721da6be0b9df"
 
 [all.verilator]
 changeset = "e69c3802054e0e9bac0a9c8bd4942dde167148f1"

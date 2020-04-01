@@ -77,32 +77,11 @@ requires = ["temp"]
 # wd = "%BUILD_DIR%"
 exec = "make"
 
-
 [repo.toolchains]
 url = "toolchain_building.git"
 path = "toolchains"
-env = { TOOLS_DATA_DIR="%GRIP_ROOT_PATH%/temp_data" }
 doc = """
-The toolchains repository is a make environment for downloading,
-configuring, compiling and installing the GNU toolchain and binutils,
-as cross-compilers.
-
-It has three grip stages: download, configure and install. The underlying
-git repo will perform all downloading during the download stage - after that
-is complete the network is not required for a built.
-
 The repository is used here to build cross-compiler, linker and assembler for RISC-V32 Elf,
 i.e. not a Linux-specific libc; this allows non-OS applications/tests to be built
+
 """
-
-[repo.toolchains.download]
-exec = "make DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% download"
-
-[repo.toolchains.configure]
-requires = ["toolchains.download"]
-exec = "make TARGET=riscv32-elf DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% configure"
-
-[repo.toolchains.install]
-requires = ["toolchains.configure"]
-exec = "make TARGET=riscv32-elf DATA_DIR=%TOOLS_DATA_DIR% INSTALL_DIR=%TOOLS_DIR% install"
-
