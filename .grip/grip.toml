@@ -12,10 +12,11 @@ configs         = ["all", "test"]
 base_repos      = []
 stages          = ["temp", "temp2", "download", "configure","install"]
 workflow        = "readonly"
+logging         = "Yes"
 
 [env]
-TOOLS_DIR="%GRIP_ROOT_PATH%/tools"
-PATH="%GRIP_ROOT_PATH%/grip:%TOOLS_DIR%/bin:$(PATH)"
+TOOLS_DIR="@GRIP_ROOT_PATH@/tools"
+#PATH="@GRIP_ROOT_PATH@/grip:@TOOLS_DIR@/bin:$PATH"
 
 [config.test]
 # repos = ["cdl", "verilator"]
@@ -43,7 +44,7 @@ but it will be.
 """
 
 [repo.verilator.configure]
-exec = "unset VERILATOR_ROOT && autoconf && ./configure --prefix=%TOOLS_DIR%"
+exec = "unset VERILATOR_ROOT && autoconf && ./configure --prefix=@TOOLS_DIR@"
 
 [repo.verilator.install]
 requires = ["verilator.configure"]
@@ -62,7 +63,7 @@ Grip is the git repository configuration management tool
 url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
-env = {BUILD_DIR="%GRIP_ROOT_PATH%/build/cdl"}
+env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
 doc = """
 CDL is a synthesizable hardware design language, compiler for that language, and simulation engine.
 
@@ -70,12 +71,12 @@ The hardware designs are all written in CDL, and require this tool to convert th
 """
 
 [repo.cdl.temp]
-exec = "mkdir -p %BUILD_DIR% && autoreconf --force --install --verbose && cd %GRIP_REPO_PATH% && ./configure --prefix=%TOOLS_DIR%"
+exec = "mkdir -p @BUILD_DIR@ && autoreconf --force --install --verbose && cd @BUILD_DIR@ && @GRIP_REPO_PATH@/configure --prefix=@TOOLS_DIR@"
 
 [repo.cdl.temp2]
 requires = ["temp"]
-# wd = "%BUILD_DIR%"
-exec = "make"
+wd = "@BUILD_DIR@"
+exec = "make clean && make -j8 && make install"
 
 [repo.toolchains]
 url = "toolchain_building.git"
@@ -85,3 +86,5 @@ The repository is used here to build cross-compiler, linker and assembler for RI
 i.e. not a Linux-specific libc; this allows non-OS applications/tests to be built
 
 """
+configure-risc32-elf.satisfies="configure"
+install-risc32-elf.satisfies="install"
