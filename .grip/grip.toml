@@ -64,19 +64,7 @@ url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
 env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
-doc = """
-CDL is a synthesizable hardware design language, compiler for that language, and simulation engine.
 
-The hardware designs are all written in CDL, and require this tool to convert them to Verilog or to simulate them.
-"""
-
-[repo.cdl.temp]
-exec = "mkdir -p @BUILD_DIR@ && autoreconf --force --install --verbose && cd @BUILD_DIR@ && @GRIP_REPO_PATH@/configure --prefix=@TOOLS_DIR@"
-
-[repo.cdl.temp2]
-requires = ["temp"]
-wd = "@BUILD_DIR@"
-exec = "make clean && make -j8 && make install"
 
 [repo.toolchains]
 url = "toolchain_building.git"
