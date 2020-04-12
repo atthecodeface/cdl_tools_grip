@@ -74,5 +74,5 @@ The repository is used here to build cross-compiler, linker and assembler for RI
 i.e. not a Linux-specific libc; this allows non-OS applications/tests to be built
 
 """
-configure-risc32-elf.satisfies="configure"
-install-risc32-elf.satisfies="install"
+configure-riscv32-unknown-elf.satisfies="configure"
+install-riscv32-unknown-elf.satisfies="install"
