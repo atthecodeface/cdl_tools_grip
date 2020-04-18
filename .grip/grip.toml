@@ -5,6 +5,8 @@ This includes cdl itself, verilator, and cross-compilers/assemblers/linkers for 
 
 There is one main configuration: 'all'. This downloads and installs all of the tools.
 The tools are built in to TOOLS_DIR, which defaults to <cd>/tools.
+
+Builds require autoconf (which pulls in automake autotools-dev on Ubuntu); bison; flex;
 """
 
 default_config  = "all"
