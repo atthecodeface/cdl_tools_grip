@@ -18,7 +18,7 @@ logging         = "Yes"
 
 [env]
 TOOLS_DIR="@GRIP_ROOT_PATH@/tools"
-#PATH="@GRIP_ROOT_PATH@/grip:@TOOLS_DIR@/bin:$PATH"
+PATH="@GRIP_ROOT_PATH@/grip:@TOOLS_DIR@/bin:@PATH@"
 
 [config.test]
 # repos = ["cdl", "verilator"]
