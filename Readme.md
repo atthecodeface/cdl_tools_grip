@@ -102,6 +102,18 @@ cd <somewhere>/cdl_tools_grip
 <somewhere>/grip/grip configure all
 ```
 
+# Checking
+
+To check that the repository has built correctly, try:
+
+```
+<somewhere>/grip/grip shell
+cdl --version
+verilator --version
+riscv32-elf-gcc --version
+riscv32-elf-as --version
+```
+
 # An example of use
 
 With the cdl_tools_grip repository configured and installed, the

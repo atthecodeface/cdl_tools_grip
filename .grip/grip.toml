@@ -66,6 +66,7 @@ url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
 env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
+configure.requires = ["verilator.install"]
 
 
 [repo.toolchains]
