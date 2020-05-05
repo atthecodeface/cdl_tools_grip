@@ -34,15 +34,24 @@ doc = """
 This grip configuration provides the 'grip', 'cdl' and 'verilator' tools, plus Binutils, gcc and libc
 compiled for RISC-V I32MC standalone (non-linux target)
 """
+[config.all.stage.download]
+doc="""Download files, particularly for the GCC/binutils toolchain
+This will download tarballs, unpack them, and then download more files as require by gcc prerequisites.
+"""
 
+[config.all.stage.configure]
+doc="""Configures binutils and gcc for cross-compilation; gcc kinda requires binutils to be installed, so this actually build binutils too"""
+
+[config.all.stage.install]
+doc="""Compile and build all the tools"""
 
 [repo.verilator]
 url = "https://git.veripool.org/git/verilator"
 branch = "stable"
 path = "verilator"
 doc = """
-Verilator is a Verilog/SystemVerilog to C++ compiler. It is not currently used in the CDL hardware,
-but it will be.
+Verilator is a Verilog/SystemVerilog to C++ compiler.
+With the CDL toolchain it provides a faster single-threaded simulation mechanism than the CDL simulator, with less visibility on the signals in the simulation.
 """
 
 [repo.verilator.configure]
