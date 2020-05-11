@@ -41,9 +41,11 @@ This will download tarballs, unpack them, and then download more files as requir
 
 [config.all.stage.configure]
 doc="""Configures binutils and gcc for cross-compilation; gcc kinda requires binutils to be installed, so this actually build binutils too"""
+requires=["toolchains.configure-riscv32-unknown-elf","verilator.configure","cdl.configure"]
 
 [config.all.stage.install]
 doc="""Compile and build all the tools"""
+requires=["toolchains.install-riscv32-unknown-elf","verilator.install","cdl.install"]
 
 [repo.verilator]
 url = "https://git.veripool.org/git/verilator"
@@ -86,5 +88,3 @@ The repository is used here to build cross-compiler, linker and assembler for RI
 i.e. not a Linux-specific libc; this allows non-OS applications/tests to be built
 
 """
-configure-riscv32-unknown-elf.satisfies="configure"
-install-riscv32-unknown-elf.satisfies="install"
