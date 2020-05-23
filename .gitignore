@@ -1,6 +1,12 @@
 .grip/local*
 build
-tools
+
+*~
 
 binutils
-*~
+cdl
+grip
+temp_data
+toolchains
+tools
+verilator
