@@ -76,11 +76,11 @@ Grip is the git repository configuration management tool
 url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
-env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
-configure.requires = ["verilator.install"]
+env = {PYTHON_CONFIG="python3-config", BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
 
 [repo.cdl.configure]
-exec = "mkdir -p @BUILD_DIR@ && autoconf --force --install --verbose && ./configure --prefix=@TOOLS_DIR@"
+requires = ["verilator.install"]
+exec = "mkdir -p @BUILD_DIR@ && PYTHON_CONFIG=@PYTHON_CONFIG@ autoconf --force --install --verbose && ./configure --prefix=@TOOLS_DIR@"
 
 [repo.cdl.install]
 requires = ["verilator.configure"]
