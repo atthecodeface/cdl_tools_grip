@@ -29,7 +29,7 @@ This is a test configuration for the use of the author only
 """
 
 [config.all]
-repos = ["grip", "cdl", "toolchains", "verilator"]
+repos = ["grip", "cdl", "verilator"]
 doc = """
 This grip configuration provides the 'grip', 'cdl' and 'verilator' tools, plus Binutils, gcc and libc
 compiled for RISC-V I32MC standalone (non-linux target)
@@ -41,11 +41,11 @@ This will download tarballs, unpack them, and then download more files as requir
 
 [config.all.stage.configure]
 doc="""Configures binutils and gcc for cross-compilation; gcc kinda requires binutils to be installed, so this actually build binutils too"""
-requires=["toolchains.configure-riscv32-unknown-elf","verilator.configure","cdl.configure"]
+requires=["verilator.configure","cdl.configure"]
 
 [config.all.stage.install]
 doc="""Compile and build all the tools"""
-requires=["toolchains.install-riscv32-unknown-elf","verilator.install","cdl.install"]
+requires=["verilator.install","cdl.install"]
 
 [repo.verilator]
 url = "https://git.veripool.org/git/verilator"
