@@ -79,6 +79,13 @@ path = "cdl"
 env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
 configure.requires = ["verilator.install"]
 
+[repo.cdl.configure]
+exec = "mkdir -p @BUILD_DIR@ && autoconf --force --install --verbose && ./configure --prefix=@TOOLS_DIR@"
+
+[repo.cdl.install]
+requires = ["verilator.configure"]
+exec = "make"
+
 
 [repo.toolchains]
 url = "toolchain_building.git"
