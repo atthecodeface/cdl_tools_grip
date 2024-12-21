@@ -2,7 +2,7 @@
 changeset = "bec3d425787239372e576f316945b2c6c4318b33"
 
 [all.cdl]
-changeset = "e7a6296a45fd74537446c2a06c99a5bbbc077233"
+changeset = "70be5841314f39b383a2d26ed1d79e478736a33a"
 
 [all.binutils]
 changeset = "2846942c7c83d007106cdcf1108ceedb50e1d4ec"
@@ -12,7 +12,7 @@ branch = "binutils-2_32-branch"
 changeset = "2eab04e87cf57d09104ed273f73bfec6d4f4b2d7"
 
 [all.verilator]
-changeset = "e69c3802054e0e9bac0a9c8bd4942dde167148f1"
+changeset = "1d79f5c59b0dbe7901dd563a69310d1c9ef60504"
 branch = "stable"
 
 [cdlonly.cdl]

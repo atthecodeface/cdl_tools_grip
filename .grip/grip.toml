@@ -41,7 +41,7 @@ This will download tarballs, unpack them, and then download more files as requir
 
 [config.all.stage.configure]
 doc="""Configures binutils and gcc for cross-compilation; gcc kinda requires binutils to be installed, so this actually build binutils too"""
-requires=["verilator.configure","cdl.configure"]
+requires=["verilator.configure"]
 
 [config.all.stage.install]
 doc="""Compile and build all the tools"""
@@ -72,20 +72,13 @@ Grip is the git repository configuration management tool
 """
 
 
+# CDL has a grip.toml file, so the stages are defined there
 [repo.cdl]
 url  = "https://github.com/atthecodeface/cdl.git"
 branch = "grip"
 path = "cdl"
-env = {PYTHON_CONFIG="python3-config", BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
-
-[repo.cdl.configure]
-requires = ["verilator.install"]
-exec = "mkdir -p @BUILD_DIR@ && PYTHON_CONFIG=@PYTHON_CONFIG@ autoconf --force --install --verbose && ./configure --prefix=@TOOLS_DIR@"
-
-[repo.cdl.install]
-requires = ["verilator.configure"]
-exec = "make"
-
+env = {BUILD_DIR="@GRIP_ROOT_PATH@/build/cdl"}
+configure.requires = ["verilator.install"]
 
 [repo.toolchains]
 url = "toolchain_building.git"
