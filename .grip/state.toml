@@ -9,7 +9,7 @@ changeset = "2846942c7c83d007106cdcf1108ceedb50e1d4ec"
 branch = "binutils-2_32-branch"
 
 [all.toolchains]
-changeset = "2eab04e87cf57d09104ed273f73bfec6d4f4b2d7"
+changeset = "bd941788250a6312e8c159970653d8850696b0a0"
 
 [all.verilator]
 changeset = "2cb1a8de73a1be7ee010aa63fe1de606c4a82bf6"
@@ -20,4 +20,5 @@ changeset = "8a5c219f3b50c79857bb66761b66b7546819b959"
 branch = "grip"
 
 [test.toolchains]
-changeset = "4f65507a52de1861770573bd69e50353c6090698"
+changeset = "bd941788250a6312e8c159970653d8850696b0a0"
+
