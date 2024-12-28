@@ -48,7 +48,7 @@ doc="""Compile and build all the tools"""
 requires=["toolchains.install-riscv32-unknown-elf","verilator.install","cdl.install"]
 
 [repo.verilator]
-url = "https://git.veripool.org/git/verilator"
+url = "https://github.com/verilator/verilator"
 branch = "stable"
 path = "verilator"
 doc = """
